@@ -1,0 +1,134 @@
+/* Main Component */
+
+#container {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+}
+
+/* Main Component End */
+
+/* Footer */
+
+#footer{
+  position: absolute;
+  width: 100%;
+  bottom: 50px;
+  text-align: center;
+}
+
+/* Footer End */
+
+/* Menu */
+
+#menu{
+  border: 1px solid black;
+  position: relative;
+  min-height: 800px;
+  min-width: 800px;
+
+  height: 100vh;
+  width: 100vw;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background: rgba(0,0,0, .95);
+}
+
+#menu li{
+  position: absolute;
+  list-style: none;
+  transform-origin: 9.2vw;
+  left: 40%;
+  transition: 1s;
+  transition-timing-function: cubic-bezier(5, 0, 0, 0);
+  opacity: 0;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 20px;
+}
+
+#menu li div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid black;
+  border-radius: 50%;
+  transform: rotate(calc(360deg / -5 * var(--i) - 90deg));
+}
+
+#menu.active li{
+  transform: rotate(calc(360deg / 5 * var(--i) + 90deg));
+  opacity: 1;
+}
+
+#close{
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  transition: .5;
+  display: none;
+  cursor: pointer;
+}
+
+#menu.active li:nth-child(2){
+  transition: 2s;
+  transition-delay: 1000ms;
+}
+#menu.active li:nth-child(3){
+  transition: 2.25s;
+  transition-delay: 750ms;
+}
+#menu.active li:nth-child(4){
+  transition: 2.5s;
+  transition-delay: 500ms;
+
+}
+#menu.active li:nth-child(5){
+  transition: 2.75s;
+  transition-delay: 250ms;
+}
+
+#menu.active li:nth-child(6){
+  transition: 3s;
+}
+
+#menu.active li.active {
+  opacity: .2 !important;
+  cursor: not-allowed !important;
+}
+
+/* Menu End */
+
+/* App Box */
+
+.app-box{
+  border: 1px solid white;
+  position: absolute;
+  min-height: 250px;
+  min-width: 250px;
+  width: 17.5%;
+  height: 17.5vw;
+  z-index: 5;
+}
+
+.app-box.initial{
+  transition: 1s;
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+}
+/* App Box End */
