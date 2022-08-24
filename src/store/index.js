@@ -74,8 +74,18 @@ function GlobalStoreContextProvider(props) {
                     menu_open: false,
                     edit_mode: true,
                     light_mode: store.light_mode,
-                    current_app: payload.current_app
+                    current_app: payload.current_app,
+                    new_app: payload.current_app
                 });
+            }
+            case GlobalStoreActionType.ADD_APP: {
+                return setStore({
+                    active_apps: payload.active_apps,
+                    menu_open: false,
+                    edit_mode: false,
+                    light_mode: store.light_mode,
+                    current_app: null,
+                })
             }
             case GlobalStoreActionType.RELEASE_APP: {
                 return setStore({
@@ -153,6 +163,22 @@ function GlobalStoreContextProvider(props) {
                         current_app: app
                     }
         });
+    }
+
+    store.add_app = function(app){
+        let updated_apps = [...store.active_apps];
+        for(let i = 0; i < store.active_apps.length; i++){
+            if(store.active_apps[i].id === app.id){
+                updated_apps[i] = app;
+                break;
+            }
+        }
+        storeReducer({
+            type: GlobalStoreActionType.ADD_APP,
+            payload: {
+                active_apps: updated_apps
+            }
+        })
     }
 
     store.release_app = function(app){

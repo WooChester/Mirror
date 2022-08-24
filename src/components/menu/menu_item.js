@@ -53,7 +53,7 @@ const MenuItem = ( { appType, count } ) => {
 
     return(
         <li style={styling} onMouseDown={createApp} className={classList}>
-            <div><FontAwesomeIcon icon={ appIcon } size="2x"/></div>
+            <div className="menu_icon"><FontAwesomeIcon icon={ appIcon } size="2x"/></div>
         </li>
     )
 }
