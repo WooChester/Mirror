@@ -15,17 +15,13 @@ const Menu = () => {
     }
 
     let classList = "";
-    let closeStyling = {display: "none"};
-    let menuStyling = {};
     if(store.menu_open){
         classList = "active";
-        closeStyling = {display: "block"}
-        menuStyling.zIndex = "11";
     }
 
     return(
-        <div id="menu" className={classList} style={menuStyling}>
-            <div id="close" style={closeStyling}><FontAwesomeIcon icon={ faTimes } size="3x" onClick={handleClose} /></div>
+        <div id="menu" className={classList}>
+            <div id="close"><FontAwesomeIcon icon={ faTimes } size="3x" onClick={handleClose} /></div>
             <MenuItem 
                 appType="weather"  
                 count="0" 

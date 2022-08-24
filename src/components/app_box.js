@@ -13,45 +13,51 @@ const AppBox = ({id, initX, initY}) => {
 
     const [dragging, setDragging] = useState(is_active);
 
-    const [x, setX] = useState(initX);
-    const [y, setY] = useState(initY);
+    const [x, setX] = useState(is_new ? initX + 50 : 0);
+    const [y, setY] = useState(is_new ? initY + 50 : 0);
+    const [style, setStyle] = useState({top: initY + "px", left: initX + "px"});
 
     const handleDown = (e) => {
 
         let app = {
             id: id,
-            x: e.clientX,
-            y: e.clientY
+            x: initX,
+            y: initY
         }
-        
-        store.hold_app(app);
         
         setDragging(true);
         setX(e.clientX);
         setY(e.clientY);
+        setStyle({top: initY + "px", left: initX + "px", transition: "0s"});
+
+        store.hold_app(app);
+        
     }
 
     const handleMove = (e) => {
         if(dragging){
-            setX(e.clientX);
-            setY(e.clientY);
+
+            let diffX = e.clientX - x;
+            let diffY = e.clientY - y;
+
+            setStyle({top: initY + diffY + "px", left: initX + diffX + "px", transition: "0s"});
         }
     }
 
     const handleUp = (e) => {
-        let drop_x = e.clientX;
-        let drop_y = e.clientY;
+        let diffX = e.clientX - x;
+        let diffY = e.clientY - y;
 
         let app = {
             id: id,
-            x: e.clientX,
-            y: e.clientY
+            x: initX + diffX,
+            y: initY + diffY
         }
 
         let trash = document.getElementById("footer").firstChild;
         var trash_rect = trash.getBoundingClientRect();
         
-        if(drop_x <= trash_rect.right && drop_x >= trash_rect.left && drop_y <= trash_rect.bottom && drop_y >= trash_rect.top){
+        if(e.clientX <= trash_rect.right && e.clientX >= trash_rect.left && e.clientY <= trash_rect.bottom && e.clientY >= trash_rect.top){
             store.remove_app(app);
         }
         else{
@@ -63,27 +69,22 @@ const AppBox = ({id, initX, initY}) => {
             }
         }
         setDragging(false);
+        setStyle({top: app.y + "px", left: app.x + "px", transition: ".5s"})
     }
 
     const openSettings = () => {
         alert();
     }
 
-    let styling = {top: (y - 50) + "px", left: (x - 50) + "px"};
-    if(dragging){
-        styling.transition = "0s";
-    }
-    else{
-        styling.transition = ".5s";
-    }
-    let box_class = "app-box";
+    let box_class = "app-box no-select";
     if(is_new && store.new_app.id === id) box_class += " initial";
+    box_class += dragging ? " active" : "";
     let box_text = id;
 
     return(
         <div 
             className={box_class} 
-            style={styling} 
+            style={style} 
             onMouseDown={handleDown} 
             onMouseMove={handleMove} 
             onMouseUp={handleUp}

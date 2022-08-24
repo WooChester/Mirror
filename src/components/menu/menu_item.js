@@ -20,8 +20,8 @@ const MenuItem = ( { appType, count } ) => {
         if(!active){
             let new_app = {
                 id: count,
-                x: (e.clientX),
-                y: (e.clientY)
+                x: (e.clientX - 50),
+                y: (e.clientY - 50)
             };
             store.init_app(new_app);
         }

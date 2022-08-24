@@ -9,6 +9,8 @@ const MainComponent = () => {
 
     const { store } = useContext(GlobalStoreContext);
 
+    console.log(store.active_apps);
+
     const open_apps = store.active_apps.map((app) => (
         <AppBox
             key={app.id}
