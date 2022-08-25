@@ -14,7 +14,7 @@ const Menu = () => {
         store.toggle_menu();
     }
 
-    let classList = "";
+    let classList = "full-width";
     if(store.menu_open){
         classList = "active";
     }

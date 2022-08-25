@@ -8,7 +8,7 @@ const AppBox = ({id, initX, initY}) => {
 
     const { store } = useContext(GlobalStoreContext);
     
-    const is_active = store.current_app !== null && store.current_app.id === id;
+    const is_active = (store.current_app !== null && store.current_app.id === id);
     let is_new = store.hasOwnProperty("new_app");
 
     const [dragging, setDragging] = useState(is_active);
@@ -73,7 +73,12 @@ const AppBox = ({id, initX, initY}) => {
     }
 
     const openSettings = () => {
-        alert();
+        let app = {
+            id: id,
+            x: initX,
+            y: initY
+        }
+        store.edit_app(app);
     }
 
     let box_class = "app-box no-select";

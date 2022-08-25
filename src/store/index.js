@@ -16,7 +16,9 @@ export const GlobalStoreActionType = {
     REMOVE_APP: "REMOVE_APP",
     HOLD_APP: "HOLD_APP",
     RELEASE_APP: "RELEASE_APP",
-    EDIT_APP: "EDIT_APP"
+
+    EDIT_APP: "EDIT_APP",
+    SAVE_APP: "SAVE_APP"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -29,6 +31,7 @@ function GlobalStoreContextProvider(props) {
         menu_open: false,
         edit_mode: false,
         light_mode: false,
+        setting_mode: false,
         current_app: null
     });
 
@@ -121,8 +124,18 @@ function GlobalStoreContextProvider(props) {
                     menu_open: false,
                     edit_mode: store.edit_mode,
                     light_mode: store.light_mode,
+                    setting_mode: true,
                     current_app: payload.current_app
                 });
+            }
+            case GlobalStoreActionType.SAVE_APP: {
+                return setStore({
+                    active_apps: payload.active_apps,
+                    menu_open: false,
+                    edit_mode: store.edit_mode,
+                    light_mode: store.light_mode,
+                    current_app: null
+                })
             }
             default:
                 return store;
@@ -236,6 +249,19 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.EDIT_APP,
             payload: {current_app: app}
         });
+    }
+    store.save_app = function(app){
+        let updated_apps = [...store.active_apps];
+        for(let i = 0; i < store.active_apps.length; i++){
+            if(store.active_apps[i].id === app.id){
+                updated_apps[i] = app;
+                break;
+            }
+        }
+        storeReducer({
+            type: GlobalStoreActionType.SAVE_APP,
+            payload: {active_apps: updated_apps}
+        })
     }
 
     return (

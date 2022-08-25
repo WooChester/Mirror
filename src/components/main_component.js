@@ -4,12 +4,11 @@ import Menu from './menu/menu.js';
 
 import { GlobalStoreContext } from '../store/index.js';
 import AppBox from './app_box.js';
+import AppSettings from './app_settings.js';
 
 const MainComponent = () => {
 
     const { store } = useContext(GlobalStoreContext);
-
-    console.log(store.active_apps);
 
     const open_apps = store.active_apps.map((app) => (
         <AppBox
@@ -20,9 +19,12 @@ const MainComponent = () => {
         />
     ));
 
+    let settings = store.hasOwnProperty("setting_mode") && store.setting_mode ? <AppSettings /> : "";
+
     return (
         <div id="container">
             {open_apps}
+            {settings}
             <Menu />
             <Footer />
         </div>

@@ -14,6 +14,56 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.row {
+  width: 100%;
+  padding: 1%;
+}
+
+[class^="col-"] {
+  display: inline-block;
+}
+
+.col-1 {
+  width: 8.33% !important;
+}
+.col-2 {
+  width: 16.67% !important;
+}
+.col-3 { 
+  width: 25% !important;
+}
+.col-4 {
+  width: 33.33% !important;
+}
+.col-5 {
+  width: 41.67% !important;
+}
+.col-6 {
+  width: 50% !important;
+}
+.col-7 {
+  width: 58.33% !important;
+}
+.col-8 {
+  width: 66.67% !important;
+}
+.col-9 {
+  width: 75% !important;
+}
+.col-10 {
+  width: 83.33% !important;
+}
+.col-11 {
+  width: 91.67% !important;
+}
+
+.full-width{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0, .95);
+}
+
 /* General End */
 
 
@@ -139,8 +189,8 @@
   position: absolute;
   min-height: 250px;
   min-width: 250px;
-  width: 17.5%;
-  height: 17.5vw;
+  width: 15%;
+  height: 15vw;
   z-index: 3;
 }
 
@@ -164,4 +214,21 @@
 .app-box.initial .app-settings{
   display: none;
 }
+
+.long {
+  width: 40vw;
+}
 /* App Box End */
+
+/* App Settings */
+
+#app-settings {
+  position: absolute;
+  left: 30%;
+  top: 15%;
+  width: 40%;
+  height: 60%;
+  border: 1px solid white;
+}
+
+/* App Settings End */
