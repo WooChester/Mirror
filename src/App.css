@@ -14,49 +14,6 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-.row {
-  width: 100%;
-  padding: 1%;
-}
-
-[class^="col-"] {
-  display: inline-block;
-}
-
-.col-1 {
-  width: 8.33% !important;
-}
-.col-2 {
-  width: 16.67% !important;
-}
-.col-3 { 
-  width: 25% !important;
-}
-.col-4 {
-  width: 33.33% !important;
-}
-.col-5 {
-  width: 41.67% !important;
-}
-.col-6 {
-  width: 50% !important;
-}
-.col-7 {
-  width: 58.33% !important;
-}
-.col-8 {
-  width: 66.67% !important;
-}
-.col-9 {
-  width: 75% !important;
-}
-.col-10 {
-  width: 83.33% !important;
-}
-.col-11 {
-  width: 91.67% !important;
-}
-
 .full-width{
   position: relative;
   width: 100vw;
@@ -231,4 +188,25 @@
   border: 1px solid white;
 }
 
+#app-setting-body {
+  height: 90%;
+}
+
+#app-setting-footer {
+  height: 10%;
+}
+
+#app-setting-footer input {
+  float: right;
+  margin: 10px 20px;
+}
+
+#app-setting-nav h2{
+  color: #999;
+  line-height: 200%;
+}
+
+.highlight {
+  color: #fff !important;
+}
 /* App Settings End */

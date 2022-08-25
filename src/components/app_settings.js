@@ -1,6 +1,10 @@
 import {React, useContext, useState} from "react";
 import { GlobalStoreContext } from '../store/index.js';
 
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 const AppSettings = () => {
     const { store } = useContext(GlobalStoreContext);
 
@@ -46,9 +50,9 @@ const AppSettings = () => {
 
     return(
         <div className="full-width active">
-            <div id="app-settings">
-                <div className="row">
-                    <div className="col-3" id="app-setting-nav">
+            <Container id="app-settings">
+                <Row id="app-setting-body">
+                    <Col md={3} id="app-setting-nav">
                         <div onClick={ changeGeneral } >
                             <h2 className={ menu === "general" ? "highlight" : "" }>
                                 General
@@ -59,13 +63,17 @@ const AppSettings = () => {
                                 Advanced
                             </h2>
                         </div>
-                    </div>
-                    <div className="col-9" id="app-setting-fields">
+                    </Col>
+                    <Col md={9} id="app-setting-fields">
                         {fields}
-                    </div>
-                </div>
-                <input type="button" value="Close" onClick={closeSettings}/>
-            </div>
+                    </Col>
+                </Row>
+                <Row id="app-setting-footer">
+                    <Col>
+                        <input type="button" value="Close" onClick={closeSettings}/>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }
