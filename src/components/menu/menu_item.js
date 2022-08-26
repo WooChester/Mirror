@@ -21,7 +21,10 @@ const MenuItem = ( { appType, count } ) => {
             let new_app = {
                 id: count,
                 x: (e.clientX - 50),
-                y: (e.clientY - 50)
+                y: (e.clientY - 50),
+                settings: {
+                    shape: "long"
+                }
             };
             store.init_app(new_app);
         }

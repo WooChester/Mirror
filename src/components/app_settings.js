@@ -9,6 +9,7 @@ const AppSettings = () => {
     const { store } = useContext(GlobalStoreContext);
 
     const [menu, setMenu] = useState("general");
+    const [boxShape, setBoxShape] = useState(store.current_app !== null ? store.current_app.settings.shape : "square");
 
     // Get current app's settings
     const changeAdvanced = function(){
@@ -18,21 +19,72 @@ const AppSettings = () => {
         setMenu("general");
     }
 
-    const closeSettings = function(){
+    const saveSettings = function(){
+        let updated_app = {
+            id: store.current_app.id,
+            x: store.current_app.x,
+            y: store.current_app.y,
+            settings: {
+                shape: boxShape
+            }
+        }
+        store.save_app(updated_app);
+    }
 
-        store.save_app(store.current_app);
+    const changeShapeSquare = function(){
+        setBoxShape("square");
+    }
+
+    const changeShapeLong = function(){
+        setBoxShape("long");
     }
 
     let fields;
     if(menu === "general"){
-        fields = <div>
+        fields = <div id="general-settings">
                     <h1>General Settings</h1>
-                    <div className="col-4">
-                        <label>Box Shape</label>
-                    </div>
-                    <div className="col-8">
-                        <input type="radio" value="square" name="size-input"/>
-                        <input type="radio" value="long" name="size-input"/>
+                    <div id="setting-box-shape" className="setting-row">
+                        <Row className="align-items-center">
+                            <Col md="4">
+                                <label className="main-label">Box Shape</label>
+                            </Col>
+                            <Col md="8">
+                                <Row>
+                                    <Col md="4">
+                                        <input 
+                                            type="radio" 
+                                            value="square" 
+                                            name="shape-input" 
+                                            id="shape-square" 
+                                            onChange={changeShapeSquare}
+                                        />
+                                        <label 
+                                            for="shape-square" 
+                                            className={boxShape === "square" ? "shape-selected" : ""}
+                                        >
+                                            <div id="setting-square-box"></div>
+                                            Small Box
+                                        </label>
+                                    </Col>
+                                    <Col md="8">
+                                        <input 
+                                            type="radio" 
+                                            value="long" 
+                                            name="shape-input" 
+                                            id="shape-long"
+                                            onChange={changeShapeLong}
+                                        />
+                                        <label 
+                                            for="shape-long" 
+                                            className={boxShape === "long" ? "shape-selected" : ""}
+                                        >
+                                            <div id="setting-long-box"></div>
+                                            Long Box
+                                        </label>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
                     </div>
                 </div>;
     }
@@ -70,7 +122,7 @@ const AppSettings = () => {
                 </Row>
                 <Row id="app-setting-footer">
                     <Col>
-                        <input type="button" value="Close" onClick={closeSettings}/>
+                        <input type="button" value="Close" onClick={saveSettings}/>
                     </Col>
                 </Row>
             </Container>

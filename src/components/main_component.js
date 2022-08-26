@@ -13,9 +13,7 @@ const MainComponent = () => {
     const open_apps = store.active_apps.map((app) => (
         <AppBox
             key={app.id}
-            id={app.id}
-            initX={app.x}
-            initY={app.y}
+            app={app}
         />
     ));
 

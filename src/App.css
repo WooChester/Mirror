@@ -172,7 +172,7 @@
   display: none;
 }
 
-.long {
+.shape-long {
   width: 40vw;
 }
 /* App Box End */
@@ -209,4 +209,41 @@
 .highlight {
   color: #fff !important;
 }
+
+.setting-row{
+  padding: 20px 10px;
+}
+
+.main-label {
+  color: #fff !important;
+}
+
+#setting-box-shape input[type=radio]{
+  display: none;
+}
+
+#setting-square-box {
+  padding: 30px;
+  border: 1px solid #999;
+}
+
+#setting-long-box {
+  padding: 30px 50px;
+  border: 1px solid #999;
+}
+
+#app-settings label {
+  text-align: center;
+  color: #999;
+}
+
+.shape-selected div {
+  border: 3px solid #fff !important;
+}
+.shape-selected {
+  color: white !important;
+  font-weight: 400;
+}
+
+
 /* App Settings End */

@@ -4,31 +4,26 @@ import { GlobalStoreContext } from '../store/index.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
-const AppBox = ({id, initX, initY}) => {
+const AppBox = ({app}) => {
 
+    console.log(app);
     const { store } = useContext(GlobalStoreContext);
     
-    const is_active = (store.current_app !== null && store.current_app.id === id);
+    const is_active = (store.current_app !== null && store.current_app.id === app.id);
     let is_new = store.hasOwnProperty("new_app");
 
     const [dragging, setDragging] = useState(is_active);
 
-    const [x, setX] = useState(is_new ? initX + 50 : 0);
-    const [y, setY] = useState(is_new ? initY + 50 : 0);
-    const [style, setStyle] = useState({top: initY + "px", left: initX + "px"});
+    const [x, setX] = useState(is_new ? app.x + 50 : 0);
+    const [y, setY] = useState(is_new ? app.y + 50 : 0);
+    const [style, setStyle] = useState({top: app.y + "px", left: app.x + "px"});
 
     const handleDown = (e) => {
-
-        let app = {
-            id: id,
-            x: initX,
-            y: initY
-        }
         
         setDragging(true);
         setX(e.clientX);
         setY(e.clientY);
-        setStyle({top: initY + "px", left: initX + "px", transition: "0s"});
+        setStyle({top: app.y + "px", left: app.x + "px", transition: "0s"});
 
         store.hold_app(app);
         
@@ -40,7 +35,7 @@ const AppBox = ({id, initX, initY}) => {
             let diffX = e.clientX - x;
             let diffY = e.clientY - y;
 
-            setStyle({top: initY + diffY + "px", left: initX + diffX + "px", transition: "0s"});
+            setStyle({top: app.y + diffY + "px", left: app.x + diffX + "px", transition: "0s"});
         }
     }
 
@@ -48,43 +43,40 @@ const AppBox = ({id, initX, initY}) => {
         let diffX = e.clientX - x;
         let diffY = e.clientY - y;
 
-        let app = {
-            id: id,
-            x: initX + diffX,
-            y: initY + diffY
+        let updated_app = {
+            id: app.id,
+            x: app.x + diffX,
+            y: app.y + diffY,
+            settings: app.settings
         }
 
         let trash = document.getElementById("footer").firstChild;
         var trash_rect = trash.getBoundingClientRect();
         
         if(e.clientX <= trash_rect.right && e.clientX >= trash_rect.left && e.clientY <= trash_rect.bottom && e.clientY >= trash_rect.top){
-            store.remove_app(app);
+            store.remove_app(updated_app);
         }
         else{
             if(is_new){
-                store.add_app(app);
+                store.add_app(updated_app);
             }
             else{
-                store.release_app(app);
+                store.release_app(updated_app);
             }
         }
         setDragging(false);
-        setStyle({top: app.y + "px", left: app.x + "px", transition: ".5s"})
+        setStyle({top: updated_app.y + "px", left: updated_app.x + "px", transition: ".5s"})
     }
 
     const openSettings = () => {
-        let app = {
-            id: id,
-            x: initX,
-            y: initY
-        }
         store.edit_app(app);
     }
 
     let box_class = "app-box no-select";
-    if(is_new && store.new_app.id === id) box_class += " initial";
+    if(is_new && store.new_app.id === app.id) box_class += " initial";
+    if(app.settings.shape !== "square") box_class += " shape-" + app.settings.shape;
     box_class += dragging ? " active" : "";
-    let box_text = id;
+    let box_text = app.id;
 
     return(
         <div 
