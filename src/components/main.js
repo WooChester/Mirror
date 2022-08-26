@@ -3,14 +3,14 @@ import Footer from './footer.js';
 import Menu from './menu/menu.js';
 
 import { GlobalStoreContext } from '../store/index.js';
-import AppBox from './app_box.js';
-import AppSettings from './app_settings.js';
+import AppBox from './app/app_box.js';
+import AppSettings from './app/app_settings.js';
 
 const MainComponent = () => {
 
     const { store } = useContext(GlobalStoreContext);
 
-    const open_apps = store.active_apps.map((app) => (
+    const active_apps = store.active_apps.map((app) => (
         <AppBox
             key={app.id}
             app={app}
@@ -21,7 +21,7 @@ const MainComponent = () => {
 
     return (
         <div id="container">
-            {open_apps}
+            {active_apps}
             {settings}
             <Menu />
             <Footer />

@@ -1,12 +1,11 @@
 import {React, useContext, useState} from "react";
-import { GlobalStoreContext } from '../store/index.js';
+import { GlobalStoreContext } from '../../store/index.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 const AppBox = ({app}) => {
 
-    console.log(app);
     const { store } = useContext(GlobalStoreContext);
     
     const is_active = (store.current_app !== null && store.current_app.id === app.id);

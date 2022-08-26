@@ -44,6 +44,11 @@
   text-align: center;
 }
 
+.footer-trash{
+  color: red;
+  z-index: 0;
+}
+
 /* Footer End */
 
 /* Menu */
@@ -199,6 +204,11 @@
 #app-setting-footer input {
   float: right;
   margin: 10px 20px;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  padding: 5px 20px;
+  font-size: 1.2em;
 }
 
 #app-setting-nav h2{

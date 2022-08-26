@@ -1,5 +1,5 @@
 import {React, useContext, useState} from "react";
-import { GlobalStoreContext } from '../store/index.js';
+import { GlobalStoreContext } from '../../store/index.js';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -20,15 +20,17 @@ const AppSettings = () => {
     }
 
     const saveSettings = function(){
-        let updated_app = {
-            id: store.current_app.id,
-            x: store.current_app.x,
-            y: store.current_app.y,
-            settings: {
-                shape: boxShape
+        if(store.current_app !== null){
+            let updated_app = {
+                id: store.current_app.id,
+                x: store.current_app.x,
+                y: store.current_app.y,
+                settings: {
+                    shape: boxShape
+                }
             }
+            store.save_app(updated_app);
         }
-        store.save_app(updated_app);
     }
 
     const changeShapeSquare = function(){

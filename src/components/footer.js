@@ -13,18 +13,17 @@ const Footer = () => {
     }
 
     let icon = <FontAwesomeIcon icon={faCirclePlus} onClick={handleClick} size="4x"></FontAwesomeIcon>;
-    let styling = {};
+    let footerClass = "";
     if(store.current_app != null){
         icon = <FontAwesomeIcon icon={faTrash} onClick={handleClick} size="4x"></FontAwesomeIcon>;
-        styling.color = "red";
-        styling.zIndex = 0;
+        footerClass = "footer-trash";
     }
     else if(store.menu_open){
         icon = "";
     }
 
     return(
-        <div id="footer" style={styling}>
+        <div id="footer" className={footerClass}>
             {icon}
         </div>
     )

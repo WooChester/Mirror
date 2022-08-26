@@ -23,7 +23,7 @@ const MenuItem = ( { appType, count } ) => {
                 x: (e.clientX - 50),
                 y: (e.clientY - 50),
                 settings: {
-                    shape: "long"
+                    shape: "square"
                 }
             };
             store.init_app(new_app);
