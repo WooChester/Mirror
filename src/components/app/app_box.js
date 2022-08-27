@@ -75,6 +75,10 @@ const AppBox = ({app}) => {
         store.edit_app(app);
     }
 
+    const toggleLight = () => {
+        store.toggle_light();
+    }
+
     let box_class = "app-box no-select";
     if(is_new && store.new_app.id === app.id) box_class += " initial";
     if(app.settings.shape !== "square") box_class += " shape-" + app.settings.shape;
@@ -86,13 +90,21 @@ const AppBox = ({app}) => {
         box_text = <Container>
                         <Row className="align-items-center">
                             <Col md="4">
-                                <FontAwesomeIcon icon={ faLock } size="2x"/>
+                                <div className="icon-box">
+                                    <FontAwesomeIcon icon={ faLock } size="2x"/>
+                                </div>
+                                
                             </Col>
                             <Col md="4">
-                                <FontAwesomeIcon icon={ faEdit } size="2x"/>
+                                <div className="icon-box">
+                                    <FontAwesomeIcon icon={ faEdit } size="2x"/>
+                                </div>
+                                
                             </Col>
                             <Col md="4">
-                                <FontAwesomeIcon icon={ faLightbulb } size="2x"/>
+                                <div className="icon-box" onClick={toggleLight}>
+                                    <FontAwesomeIcon icon={ faLightbulb } size="2x"/>
+                                </div>
                             </Col>
                         </Row>
                     </Container>

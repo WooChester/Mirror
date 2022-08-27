@@ -2,6 +2,7 @@
 
 .active {
   z-index: 5 !important;
+  display: flex !important;
 }
 
 .no-select {
@@ -40,14 +41,21 @@
 #footer{
   position: absolute;
   width: 100%;
-  bottom: 50px;
+  bottom: 0;
   text-align: center;
+}
+
+#footer svg {
+  padding: 4vh;
+  background: black;
 }
 
 .footer-trash{
   color: red;
   z-index: 0;
 }
+
+
 
 /* Footer End */
 
@@ -62,7 +70,7 @@
   height: 100vh;
   width: 100vw;
   
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   margin: auto;
@@ -195,6 +203,18 @@
 
 .mode-bar .container, .mode-bar .row {
   height: 100%;
+  text-align: center;
+}
+
+.icon-box{
+  border: 1px solid white;
+  border-radius: 50%;
+  height: 3.5vw;
+  width: 3.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 /* Mode Box End */
@@ -280,5 +300,21 @@
   height: 85%;
 }
 
-
 /* App Settings End */
+
+/* Light */
+
+#light {
+  background: transparent;
+  width: 94vw;
+  height: 90vh;
+  border: 40px solid white;
+  position: absolute;
+  top: 5vh;
+  left: 3vw;
+}
+
+/* Light End */
+
+
+

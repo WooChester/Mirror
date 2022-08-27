@@ -19,10 +19,13 @@ const MainComponent = () => {
 
     let settings = store.hasOwnProperty("setting_mode") && store.setting_mode ? <AppSettings /> : "";
 
+    let light = store.light_mode ? <div id="light"></div> : "";
+
     return (
         <div id="container">
             {active_apps}
             {settings}
+            {light}
             <Menu />
             <Footer />
         </div>
