@@ -24,23 +24,23 @@ const Menu = () => {
             <div id="close"><FontAwesomeIcon icon={ faTimes } size="3x" onClick={handleClose} /></div>
             <MenuItem 
                 appType="weather"  
-                count="0" 
+                id="0" 
             />
             <MenuItem 
                 appType="music"  
-                count="1" 
+                id="1" 
             />
             <MenuItem 
                 appType="screen"  
-                count="2" 
+                id="2" 
             />
             <MenuItem 
                 appType="setting"  
-                count="3" 
+                id="3" 
             />
             <MenuItem 
                 appType="calendar"  
-                count="4" 
+                id="4" 
             />
         </div>
     )

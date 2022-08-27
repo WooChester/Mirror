@@ -182,6 +182,23 @@
 }
 /* App Box End */
 
+/* Mode Box */
+
+.mode-bar {
+  border: 1px solid white;
+  height: 5vw;
+  width: 20vw;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 3;
+}
+
+.mode-bar .container, .mode-bar .row {
+  height: 100%;
+}
+
+/* Mode Box End */
+
 /* App Settings */
 
 #app-settings {
@@ -193,8 +210,8 @@
   border: 1px solid white;
 }
 
-#app-setting-body {
-  height: 90%;
+#app-setting-box{
+  height: 100%;
 }
 
 #app-setting-footer {
@@ -228,16 +245,16 @@
   color: #fff !important;
 }
 
-#setting-box-shape input[type=radio]{
+#setting-box-shape input[type=radio], #setting-default-box-shape input[type=radio]{
   display: none;
 }
 
-#setting-square-box {
+.setting-square-box {
   padding: 30px;
   border: 1px solid #999;
 }
 
-#setting-long-box {
+.setting-long-box {
   padding: 30px 50px;
   border: 1px solid #999;
 }
@@ -253,6 +270,14 @@
 .shape-selected {
   color: white !important;
   font-weight: 400;
+}
+
+.field-body {
+  height: 90%;
+}
+
+#general-settings, #system-settings{
+  height: 85%;
 }
 
 

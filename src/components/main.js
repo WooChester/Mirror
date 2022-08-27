@@ -9,7 +9,7 @@ import AppSettings from './app/app_settings.js';
 const MainComponent = () => {
 
     const { store } = useContext(GlobalStoreContext);
-
+    console.log(store);
     const active_apps = store.active_apps.map((app) => (
         <AppBox
             key={app.id}

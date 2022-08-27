@@ -4,26 +4,29 @@ import { GlobalStoreContext } from '../../store/index.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faCloud, faMusic, faCalendar, faGear, faDesktop } from '@fortawesome/free-solid-svg-icons';
 
-const MenuItem = ( { appType, count } ) => {
+const MenuItem = ( { appType, id } ) => {
 
     const { store } = useContext(GlobalStoreContext);
 
     let classList = "";
     let active = false;
     for(let i = 0; i < store.active_apps.length; i++){
-        if(store.active_apps[i].id === count){
+        if(store.active_apps[i].id === id){
             classList = " active";
             active = true;
         }
     }
-    const createApp = function(e){
-        if(!active){
+    const selectApp = function(e){
+        if(id == 3){
+            store.toggle_setting();
+        }
+        else if(!active){
             let new_app = {
-                id: count,
+                id: id,
                 x: (e.clientX - 50),
                 y: (e.clientY - 50),
                 settings: {
-                    shape: "square"
+                    shape: store.settings.default_shape
                 }
             };
             store.init_app(new_app);
@@ -52,10 +55,10 @@ const MenuItem = ( { appType, count } ) => {
             appIcon = "";
     }
 
-    const styling = {"--i": count};
+    const styling = {"--i": id};
 
     return(
-        <li style={styling} onMouseDown={createApp} className={classList}>
+        <li style={styling} onMouseDown={selectApp} className={classList}>
             <div className="menu_icon"><FontAwesomeIcon icon={ appIcon } size="2x"/></div>
         </li>
     )

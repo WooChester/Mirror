@@ -2,7 +2,11 @@ import {React, useContext, useState} from "react";
 import { GlobalStoreContext } from '../../store/index.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import {  faEllipsisV, faEdit, faLock, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const AppBox = ({app}) => {
 
@@ -75,7 +79,24 @@ const AppBox = ({app}) => {
     if(is_new && store.new_app.id === app.id) box_class += " initial";
     if(app.settings.shape !== "square") box_class += " shape-" + app.settings.shape;
     box_class += dragging ? " active" : "";
-    let box_text = app.id;
+    let box_text = <p>{app.id}</p>;
+
+    if(app.id == 2){
+        box_class = "mode-bar no-select";
+        box_text = <Container>
+                        <Row className="align-items-center">
+                            <Col md="4">
+                                <FontAwesomeIcon icon={ faLock } size="2x"/>
+                            </Col>
+                            <Col md="4">
+                                <FontAwesomeIcon icon={ faEdit } size="2x"/>
+                            </Col>
+                            <Col md="4">
+                                <FontAwesomeIcon icon={ faLightbulb } size="2x"/>
+                            </Col>
+                        </Row>
+                    </Container>
+    }
 
     return(
         <div 
@@ -86,7 +107,7 @@ const AppBox = ({app}) => {
             onMouseUp={handleUp}
         >
             <div className="app-settings" onClick={openSettings}><FontAwesomeIcon icon={ faEllipsisV } size="2x"/></div>
-            <p>{box_text}</p>
+            {box_text}
         </div>
     )
 }
