@@ -2,7 +2,6 @@
 
 .active {
   z-index: 5 !important;
-  display: flex !important;
 }
 
 .no-select {
@@ -16,10 +15,12 @@
 }
 
 .full-width{
-  position: relative;
+  position: absolute;
   width: 100vw;
   height: 100vh;
   background: rgba(0,0,0, .95);
+  top: 0;
+
 }
 
 /* General End */
@@ -70,7 +71,7 @@
   height: 100vh;
   width: 100vw;
   
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
@@ -190,7 +191,7 @@
 }
 /* App Box End */
 
-/* Mode Box */
+/* Mode Bar */
 
 .mode-bar {
   border: 1px solid white;
@@ -217,7 +218,15 @@
   cursor: pointer;
 }
 
-/* Mode Box End */
+.mode-bar.lock-bar {
+  width: 7vw;
+}
+
+.active-mode {
+  color: yellow !important;
+}
+
+/* Mode Bar End */
 
 /* App Settings */
 

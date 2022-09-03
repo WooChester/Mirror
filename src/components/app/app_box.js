@@ -1,12 +1,9 @@
 import {React, useContext, useState} from "react";
 import { GlobalStoreContext } from '../../store/index.js';
+import ModeBar from './mode_bar.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faEllipsisV, faEdit, faLock, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import {  faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 const AppBox = ({app}) => {
 
@@ -23,12 +20,14 @@ const AppBox = ({app}) => {
 
     const handleDown = (e) => {
         
-        setDragging(true);
-        setX(e.clientX);
-        setY(e.clientY);
-        setStyle({top: app.y + "px", left: app.x + "px", transition: "0s"});
+        if(!store.mode.lock_mode || app.id == 2){
+            setDragging(true);
+            setX(e.clientX);
+            setY(e.clientY);
+            setStyle({top: app.y + "px", left: app.x + "px", transition: "0s"});
 
-        store.hold_app(app);
+            store.hold_app(app);
+        }
         
     }
 
@@ -43,40 +42,39 @@ const AppBox = ({app}) => {
     }
 
     const handleUp = (e) => {
-        let diffX = e.clientX - x;
-        let diffY = e.clientY - y;
 
-        let updated_app = {
-            id: app.id,
-            x: app.x + diffX,
-            y: app.y + diffY,
-            settings: app.settings
-        }
+        if(dragging){
+            let diffX = e.clientX - x;
+            let diffY = e.clientY - y;
 
-        let trash = document.getElementById("footer").firstChild;
-        var trash_rect = trash.getBoundingClientRect();
-        
-        if(e.clientX <= trash_rect.right && e.clientX >= trash_rect.left && e.clientY <= trash_rect.bottom && e.clientY >= trash_rect.top){
-            store.remove_app(updated_app);
-        }
-        else{
-            if(is_new){
-                store.add_app(updated_app);
+            let updated_app = {
+                id: app.id,
+                x: app.x + diffX,
+                y: app.y + diffY,
+                settings: app.settings
+            }
+
+            let trash = document.getElementById("footer").firstChild;
+            var trash_rect = trash.getBoundingClientRect();
+            
+            if(e.clientX <= trash_rect.right && e.clientX >= trash_rect.left && e.clientY <= trash_rect.bottom && e.clientY >= trash_rect.top){
+                store.remove_app(updated_app);
             }
             else{
-                store.release_app(updated_app);
+                if(is_new){
+                    store.add_app(updated_app);
+                }
+                else{
+                    store.release_app(updated_app);
+                }
             }
+            setDragging(false);
+            setStyle({top: updated_app.y + "px", left: updated_app.x + "px", transition: ".5s"})
         }
-        setDragging(false);
-        setStyle({top: updated_app.y + "px", left: updated_app.x + "px", transition: ".5s"})
     }
 
     const openSettings = () => {
         store.edit_app(app);
-    }
-
-    const toggleLight = () => {
-        store.toggle_light();
     }
 
     let box_class = "app-box no-select";
@@ -87,27 +85,8 @@ const AppBox = ({app}) => {
 
     if(app.id == 2){
         box_class = "mode-bar no-select";
-        box_text = <Container>
-                        <Row className="align-items-center">
-                            <Col md="4">
-                                <div className="icon-box">
-                                    <FontAwesomeIcon icon={ faLock } size="2x"/>
-                                </div>
-                                
-                            </Col>
-                            <Col md="4">
-                                <div className="icon-box">
-                                    <FontAwesomeIcon icon={ faEdit } size="2x"/>
-                                </div>
-                                
-                            </Col>
-                            <Col md="4">
-                                <div className="icon-box" onClick={toggleLight}>
-                                    <FontAwesomeIcon icon={ faLightbulb } size="2x"/>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
+        if(store.mode.lock_mode) box_class += " lock-bar";
+        box_text = <ModeBar />
     }
 
     return(

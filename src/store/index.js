@@ -11,6 +11,7 @@ export const GlobalStoreActionType = {
     TOGGLE_EDIT: "TOGGLE_EDIT",
     TOGGLE_LIGHT: "TOGGLE_LIGHT",
     TOGGLE_SETTING: "TOGGLE_SETTING",
+    TOGGLE_LOCK: "TOGGLE_LOCK",
 
     INIT_APP: "INIT_APP",
     ADD_APP: "ADD_APP",
@@ -36,6 +37,11 @@ function GlobalStoreContextProvider(props) {
         current_app: null,
         settings: {
             default_shape: "square"
+        },
+        mode: {
+            edit_mode: false,
+            light_mode: false,
+            lock_mode: false
         }
     });
 
@@ -52,41 +58,62 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: !store.menu_open,
-                    edit_mode: false,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: store.mode
                 });
             }
             case GlobalStoreActionType.TOGGLE_EDIT: {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: store.menu_open,
-                    edit_mode: !store.edit_mode,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: {
+                        edit_mode: !store.mode.edit_mode,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: false
+                    }
                 });
             }
             case GlobalStoreActionType.TOGGLE_LIGHT: {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: store.menu_open,
-                    edit_mode: store.edit_mode,
-                    light_mode: !store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: {
+                        edit_mode: store.mode.edit_mode,
+                        light_mode: !store.mode.light_mode,
+                        lock_mode: false
+                    }
                 });
             }
             case GlobalStoreActionType.TOGGLE_SETTING: {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: false,
-                    edit_mode: false,
-                    setting_mode: true,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: {
+                        edit_mode: false,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: false,
+                        setting_mode: true
+                    }
+                })
+            }
+            case GlobalStoreActionType.TOGGLE_LOCK: {
+                return setStore({
+                    active_apps: store.active_apps,
+                    menu_open: false,
+                    current_app: null,
+                    settings: store.settings,
+                    mode: {
+                        edit_mode: false,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: !store.mode.lock_mode,
+                    }
                 })
             }
 
@@ -94,51 +121,46 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     active_apps: payload.active_apps,
                     menu_open: false,
-                    edit_mode: true,
-                    light_mode: store.light_mode,
                     current_app: payload.current_app,
                     new_app: payload.current_app,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: store.mode
                 });
             }
             case GlobalStoreActionType.ADD_APP: {
                 return setStore({
                     active_apps: payload.active_apps,
                     menu_open: false,
-                    edit_mode: false,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: store.mode
                 })
             }
             case GlobalStoreActionType.RELEASE_APP: {
                 return setStore({
                     active_apps: payload.active_apps,
                     menu_open: false,
-                    edit_mode: false,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: store.mode
                 });
             }
             case GlobalStoreActionType.REMOVE_APP: {
                 return setStore({
                     active_apps: payload.active_apps,
                     menu_open: false,
-                    edit_mode: true,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: store.mode
                 });
             }
             case GlobalStoreActionType.HOLD_APP: {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: false,
-                    edit_mode: true,
-                    light_mode: store.light_mode,
                     current_app: payload.current_app,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: store.mode
                 });
             }
 
@@ -146,31 +168,40 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: false,
-                    edit_mode: store.edit_mode,
-                    light_mode: store.light_mode,
-                    setting_mode: true,
                     current_app: payload.current_app,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: {
+                        edit_mode: store.mode.edit_mode,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: store.mode.lock_mode,
+                        setting_mode: true
+                    }
                 });
             }
             case GlobalStoreActionType.SAVE_APP: {
                 return setStore({
                     active_apps: payload.active_apps,
                     menu_open: false,
-                    edit_mode: store.edit_mode,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: store.settings
+                    settings: store.settings,
+                    mode: {
+                        edit_mode: store.mode.edit_mode,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: store.mode.lock_mode
+                    }
                 })
             }
             case GlobalStoreActionType.SAVE_SETTINGS: {
                 return setStore({
                     active_apps: store.active_apps,
                     menu_open: false,
-                    edit_mode: false,
-                    light_mode: store.light_mode,
                     current_app: null,
-                    settings: payload.settings
+                    settings: payload.settings,
+                    mode: {
+                        edit_mode: store.mode.edit_mode,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: false
+                    }
                 })
             }
             default:
@@ -207,6 +238,13 @@ function GlobalStoreContextProvider(props) {
     store.toggle_setting = function(){
         storeReducer({
             type: GlobalStoreActionType.TOGGLE_SETTING,
+            payload: {}
+        })
+    }
+
+    store.toggle_lock = function(){
+        storeReducer({
+            type: GlobalStoreActionType.TOGGLE_LOCK,
             payload: {}
         })
     }
