@@ -196,7 +196,7 @@
 .mode-bar {
   border: 1px solid white;
   height: 5vw;
-  width: 20vw;
+  width: 15vw;
   border-radius: 10px;
   position: absolute;
   z-index: 3;
@@ -223,7 +223,8 @@
 }
 
 .active-mode {
-  color: yellow !important;
+  background: white;
+  color: black !important;
 }
 
 /* Mode Bar End */
