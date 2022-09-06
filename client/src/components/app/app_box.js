@@ -1,6 +1,7 @@
 import {React, useContext, useState} from "react";
 import { GlobalStoreContext } from '../../store/index.js';
 import ModeBar from './mode_bar.js';
+import Weather from './weather.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -87,6 +88,9 @@ const AppBox = ({app}) => {
         box_class = "mode-bar no-select";
         if(store.mode.lock_mode) box_class += " lock-bar";
         box_text = <ModeBar />
+    }
+    if(app.id == 0){
+        box_text = <Weather />
     }
 
     return(

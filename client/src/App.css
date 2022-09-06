@@ -71,11 +71,15 @@
   height: 100vh;
   width: 100vw;
   
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   margin: auto;
   background: rgba(0,0,0, .95);
+}
+
+#menu.active {
+  display: flex !important;
 }
 
 #menu li{
@@ -189,6 +193,11 @@
 .shape-long {
   width: 40vw;
 }
+
+.app-text{
+  font-size: 30px;
+}
+
 /* App Box End */
 
 /* Mode Bar */
@@ -228,6 +237,31 @@
 }
 
 /* Mode Bar End */
+
+/* Weather App */
+
+#weather-app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  line-height: 300%;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+#weather-app .col-md-6{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#weather-name{
+  letter-spacing: 3px;
+}
+
+/* Weather App */
 
 /* App Settings */
 

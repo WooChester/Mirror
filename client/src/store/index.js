@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react'
+import api from '../api'
 
 
 // THIS IS THE CONTEXT WE'LL USE TO SHARE OUR STORE
@@ -14,6 +15,8 @@ export const GlobalStoreActionType = {
     TOGGLE_LOCK: "TOGGLE_LOCK",
 
     INIT_APP: "INIT_APP",
+    INIT_WEATHER: "INIT_WEATHER",
+
     ADD_APP: "ADD_APP",
     REMOVE_APP: "REMOVE_APP",
     HOLD_APP: "HOLD_APP",
@@ -42,6 +45,11 @@ function GlobalStoreContextProvider(props) {
             edit_mode: false,
             light_mode: false,
             lock_mode: false
+        },
+        app_data: {
+            weather: {},
+            calendar: {},
+            spotify: {}
         }
     });
 
@@ -60,7 +68,8 @@ function GlobalStoreContextProvider(props) {
                     menu_open: !store.menu_open,
                     current_app: null,
                     settings: store.settings,
-                    mode: store.mode
+                    mode: store.mode,
+                    app_data: store.app_data
                 });
             }
             case GlobalStoreActionType.TOGGLE_EDIT: {
@@ -73,7 +82,8 @@ function GlobalStoreContextProvider(props) {
                         edit_mode: !store.mode.edit_mode,
                         light_mode: store.mode.light_mode,
                         lock_mode: false
-                    }
+                    },
+                    app_data: store.app_data
                 });
             }
             case GlobalStoreActionType.TOGGLE_LIGHT: {
@@ -86,7 +96,8 @@ function GlobalStoreContextProvider(props) {
                         edit_mode: store.mode.edit_mode,
                         light_mode: !store.mode.light_mode,
                         lock_mode: false
-                    }
+                    },
+                    app_data: store.app_data
                 });
             }
             case GlobalStoreActionType.TOGGLE_SETTING: {
@@ -100,7 +111,8 @@ function GlobalStoreContextProvider(props) {
                         light_mode: store.mode.light_mode,
                         lock_mode: false,
                         setting_mode: true
-                    }
+                    },
+                    app_data: store.app_data
                 })
             }
             case GlobalStoreActionType.TOGGLE_LOCK: {
@@ -113,7 +125,8 @@ function GlobalStoreContextProvider(props) {
                         edit_mode: false,
                         light_mode: store.mode.light_mode,
                         lock_mode: !store.mode.lock_mode,
-                    }
+                    },
+                    app_data: store.app_data
                 })
             }
 
@@ -124,16 +137,34 @@ function GlobalStoreContextProvider(props) {
                     current_app: payload.current_app,
                     new_app: payload.current_app,
                     settings: store.settings,
-                    mode: store.mode
+                    mode: store.mode,
+                    app_data: store.app_data
                 });
             }
+
+            case GlobalStoreActionType.INIT_WEATHER: {
+                return setStore({
+                    active_apps: payload.active_apps,
+                    menu_open: false,
+                    current_app: null,
+                    settings: store.settings,
+                    mode: store.mode,
+                    app_data: {
+                        weather: payload.weather_data,
+                        calendar: store.app_data.calendar,
+                        spotify: store.app_data.spotify
+                    }
+                });
+            }
+
             case GlobalStoreActionType.ADD_APP: {
                 return setStore({
                     active_apps: payload.active_apps,
                     menu_open: false,
                     current_app: null,
                     settings: store.settings,
-                    mode: store.mode
+                    mode: store.mode,
+                    app_data: store.app_data
                 })
             }
             case GlobalStoreActionType.RELEASE_APP: {
@@ -142,7 +173,8 @@ function GlobalStoreContextProvider(props) {
                     menu_open: false,
                     current_app: null,
                     settings: store.settings,
-                    mode: store.mode
+                    mode: store.mode,
+                    app_data: store.app_data
                 });
             }
             case GlobalStoreActionType.REMOVE_APP: {
@@ -151,7 +183,12 @@ function GlobalStoreContextProvider(props) {
                     menu_open: false,
                     current_app: null,
                     settings: store.settings,
-                    mode: store.mode
+                    mode: {
+                        edit_mode: false,
+                        light_mode: store.mode.light_mode,
+                        lock_mode: false
+                    },
+                    app_data: store.app_data
                 });
             }
             case GlobalStoreActionType.HOLD_APP: {
@@ -160,7 +197,8 @@ function GlobalStoreContextProvider(props) {
                     menu_open: false,
                     current_app: payload.current_app,
                     settings: store.settings,
-                    mode: store.mode
+                    mode: store.mode,
+                    app_data: store.app_data
                 });
             }
 
@@ -175,7 +213,8 @@ function GlobalStoreContextProvider(props) {
                         light_mode: store.mode.light_mode,
                         lock_mode: store.mode.lock_mode,
                         setting_mode: true
-                    }
+                    },
+                    app_data: store.app_data
                 });
             }
             case GlobalStoreActionType.SAVE_APP: {
@@ -188,7 +227,8 @@ function GlobalStoreContextProvider(props) {
                         edit_mode: store.mode.edit_mode,
                         light_mode: store.mode.light_mode,
                         lock_mode: store.mode.lock_mode
-                    }
+                    },
+                    app_data: store.app_data
                 })
             }
             case GlobalStoreActionType.SAVE_SETTINGS: {
@@ -201,7 +241,8 @@ function GlobalStoreContextProvider(props) {
                         edit_mode: store.mode.edit_mode,
                         light_mode: store.mode.light_mode,
                         lock_mode: false
-                    }
+                    },
+                    app_data: store.app_data
                 })
             }
             default:
@@ -261,8 +302,22 @@ function GlobalStoreContextProvider(props) {
                     }
         });
     }
+
+    store.init_weather = async function () {
+        const response = await api.getWeather({"location": "Long Beach"});
+        if (response.data.cod == 200) {
+            console.log(response.data);
+        }
+        else {
+            console.log("API FAILED TO GET THE WEATHER!");
+            console.log("Error " + response.data.cod + ": " + response.data.message);
+        }
+        return response.data;
+    }
+
+
     // FUNCTION TO FINALIZE THE APP'S ADDITION TO THE PAGE (ON MOUSE OUT)
-    store.add_app = function(app){
+    store.add_app = async function(app){
         let updated_apps = [...store.active_apps];
         for(let i = 0; i < store.active_apps.length; i++){
             if(store.active_apps[i].id === app.id){
@@ -270,12 +325,24 @@ function GlobalStoreContextProvider(props) {
                 break;
             }
         }
-        storeReducer({
-            type: GlobalStoreActionType.ADD_APP,
-            payload: {
-                active_apps: updated_apps
-            }
-        })
+        if(app.id == 0){
+            let weather_data = await store.init_weather();
+            storeReducer({
+                type: GlobalStoreActionType.INIT_WEATHER,
+                payload: {
+                    active_apps: updated_apps,
+                    weather_data: weather_data
+                }
+            })
+        }
+        else{
+            storeReducer({
+                type: GlobalStoreActionType.ADD_APP,
+                payload: {
+                    active_apps: updated_apps
+                }
+            })
+        }
     }
     
     // FUNCTION FOR SAVING THE NEW X,Y LOCATION OF APP AFTER DRAG
