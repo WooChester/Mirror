@@ -1,4 +1,4 @@
-import {React, useContext, useEffect} from "react";
+import {React, useContext} from "react";
 import { GlobalStoreContext } from '../../store/index.js';
 
 import Container from 'react-bootstrap/Container';
@@ -44,6 +44,8 @@ const Weather = () => {
             case "Drizzle":
                 icon = faCloudRain;
                 break;
+            default:
+                icon = faCloud;
         }
 
         let farenheit = (store.app_data.weather.main.temp * (9/5)) + 32;
@@ -51,7 +53,7 @@ const Weather = () => {
         body = <Container>
                     <Row>
                         <Col md="6"><FontAwesomeIcon icon={ icon } size="3x"/></Col>
-                        <Col md="6" className="app-text">{farenheit.toFixed(0)}&deg;C</Col>
+                        <Col md="6" className="app-text">{farenheit.toFixed(0)}&deg;F</Col>
                     </Row>
                     <Row>
                         <Col md="12" className="app-text" id="weather-name">{store.app_data.weather.name}</Col>

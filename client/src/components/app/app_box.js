@@ -100,6 +100,12 @@ const AppBox = ({app}) => {
             onMouseDown={handleDown} 
             onMouseMove={handleMove} 
             onMouseUp={handleUp}
+            onDragStart={handleDown}
+            onDrag={handleMove}
+            onDragEnd={handleUp}
+            onTouchStart={handleDown}
+            onTouchMove={handleMove}
+            onTouchEnd={handleUp}
         >
             <div className="app-settings" onClick={openSettings}><FontAwesomeIcon icon={ faEllipsisV } size="2x"/></div>
             {box_text}
