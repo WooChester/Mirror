@@ -22,8 +22,10 @@ const AppBox = ({app}) => {
     const handleDown = (e) => {
 
         let e_x, e_y;
+        console.log(e);
+
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            var touch = e.originalEvent.changedTouches[0];
             e_x = touch.pageX;
             e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
@@ -46,9 +48,9 @@ const AppBox = ({app}) => {
 
         let e_x, e_y;
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-            e_x = touch.clientX;
-            e_y = touch.clientY;
+            var touch = e.originalEvent.changedTouches[0];
+            e_x = touch.pageX;
+            e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
             e_x = e.clientX;
             e_y = e.clientY;
@@ -60,7 +62,6 @@ const AppBox = ({app}) => {
             let diffY = e_y - y;
 
             setStyle({top: app.y + diffY + "px", left: app.x + diffX + "px", transition: "0s"});
-            console.log(diffX, diffY);
         }
     }
 
@@ -68,7 +69,7 @@ const AppBox = ({app}) => {
 
         let e_x, e_y;
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            var touch = e.originalEvent.changedTouches[0];
             e_x = touch.pageX;
             e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
