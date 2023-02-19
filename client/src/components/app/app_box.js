@@ -25,7 +25,7 @@ const AppBox = ({app}) => {
         console.log(e);
 
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-            var touch = e.originalEvent.changedTouches[0];
+            var touch = e.nativeEvent.touches[0] || e.nativeEvent.changedTouches[0];
             e_x = touch.pageX;
             e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
@@ -48,7 +48,7 @@ const AppBox = ({app}) => {
 
         let e_x, e_y;
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-            var touch = e.originalEvent.changedTouches[0];
+            var touch = e.nativeEvent.touches[0] || e.nativeEvent.changedTouches[0];
             e_x = touch.pageX;
             e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
@@ -69,7 +69,7 @@ const AppBox = ({app}) => {
 
         let e_x, e_y;
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
-            var touch = e.originalEvent.changedTouches[0];
+            var touch = e.nativeEvent.touches[0] || e.nativeEvent.changedTouches[0];
             e_x = touch.pageX;
             e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
