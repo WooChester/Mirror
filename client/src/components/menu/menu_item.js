@@ -21,10 +21,21 @@ const MenuItem = ( { appType, id } ) => {
             store.toggle_setting();
         }
         else if(!active){
+
+            let e_x, e_y;
+            if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
+                var touch = e.nativeEvent.touches[0] || e.nativeEvent.changedTouches[0];
+                e_x = touch.pageX;
+                e_y = touch.pageY;
+            } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
+                e_x = e.clientX;
+                e_y = e.clientY;
+            }
+
             let new_app = {
                 id: id,
-                x: (e.clientX - 50),
-                y: (e.clientY - 50),
+                x: (e_x - 50),
+                y: (e_y - 50),
                 settings: {
                     shape: store.settings.default_shape
                 }
@@ -58,7 +69,7 @@ const MenuItem = ( { appType, id } ) => {
     const styling = {"--i": id};
 
     return(
-        <li style={styling} onMouseDown={selectApp} className={classList}>
+        <li style={styling} onMouseDown={selectApp} onTouchStart={selectApp} className={classList}>
             <div className="menu_icon"><FontAwesomeIcon icon={ appIcon } size="2x"/></div>
         </li>
     )
