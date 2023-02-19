@@ -20,11 +20,21 @@ const AppBox = ({app}) => {
     const [style, setStyle] = useState({top: app.y + "px", left: app.x + "px"});
 
     const handleDown = (e) => {
+
+        let e_x, e_y;
+        if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
+            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            e_x = touch.pageX;
+            e_y = touch.pageY;
+        } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
+            e_x = e.clientX;
+            e_y = e.clientY;
+        }
         
         if(!store.mode.lock_mode || app.id == 2){
             setDragging(true);
-            setX(e.clientX);
-            setY(e.clientY);
+            setX(e_x);
+            setY(e_y);
             setStyle({top: app.y + "px", left: app.x + "px", transition: "0s"});
 
             store.hold_app(app);
@@ -33,20 +43,42 @@ const AppBox = ({app}) => {
     }
 
     const handleMove = (e) => {
+
+        let e_x, e_y;
+        if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
+            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            e_x = touch.clientX;
+            e_y = touch.clientY;
+        } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
+            e_x = e.clientX;
+            e_y = e.clientY;
+        }
+
         if(dragging){
 
-            let diffX = e.clientX - x;
-            let diffY = e.clientY - y;
+            let diffX = e_x - x;
+            let diffY = e_y - y;
 
             setStyle({top: app.y + diffY + "px", left: app.x + diffX + "px", transition: "0s"});
+            console.log(diffX, diffY);
         }
     }
 
     const handleUp = (e) => {
 
+        let e_x, e_y;
+        if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
+            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            e_x = touch.pageX;
+            e_y = touch.pageY;
+        } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
+            e_x = e.clientX;
+            e_y = e.clientY;
+        }
+
         if(dragging){
-            let diffX = e.clientX - x;
-            let diffY = e.clientY - y;
+            let diffX = e_x - x;
+            let diffY = e_y - y;
 
             let updated_app = {
                 id: app.id,
@@ -58,7 +90,7 @@ const AppBox = ({app}) => {
             let trash = document.getElementById("footer").firstChild;
             var trash_rect = trash.getBoundingClientRect();
             
-            if(e.clientX <= trash_rect.right && e.clientX >= trash_rect.left && e.clientY <= trash_rect.bottom && e.clientY >= trash_rect.top){
+            if(e_x <= trash_rect.right && e_x >= trash_rect.left && e_y <= trash_rect.bottom && e_y >= trash_rect.top){
                 store.remove_app(updated_app);
             }
             else{
@@ -100,9 +132,9 @@ const AppBox = ({app}) => {
             onMouseDown={handleDown} 
             onMouseMove={handleMove} 
             onMouseUp={handleUp}
-            onDragStart={handleDown}
-            onDrag={handleMove}
-            onDragEnd={handleUp}
+            //onDragStart={handleDown}
+            //onDrag={handleMove}
+            //onDragEnd={handleUp}
             onTouchStart={handleDown}
             onTouchMove={handleMove}
             onTouchEnd={handleUp}
