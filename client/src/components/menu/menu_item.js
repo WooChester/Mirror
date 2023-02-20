@@ -2,7 +2,7 @@ import {React, useContext} from "react";
 import { GlobalStoreContext } from '../../store/index.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faCloud, faMusic, faCalendar, faGear, faDesktop } from '@fortawesome/free-solid-svg-icons';
+import {  faCloud, faMusic, faCalendar, faGear, faDesktop} from '@fortawesome/free-solid-svg-icons';
 
 const MenuItem = ( { appType, id } ) => {
 

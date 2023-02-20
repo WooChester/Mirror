@@ -1,7 +1,10 @@
 import {React, useContext, useState} from "react";
 import { GlobalStoreContext } from '../../store/index.js';
+
 import ModeBar from './mode_bar.js';
 import Weather from './weather.js';
+import Calendar from './calendar.js';
+import Music from './music.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +25,6 @@ const AppBox = ({app}) => {
     const handleDown = (e) => {
 
         let e_x, e_y;
-        console.log(e);
 
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
             var touch = e.nativeEvent.touches[0] || e.nativeEvent.changedTouches[0];
@@ -125,6 +127,13 @@ const AppBox = ({app}) => {
     if(app.id == 0){
         box_text = <Weather />
     }
+    else if(app.id == 1){
+        box_text = <Music />
+    }
+    else if(app.id == 4){
+        box_text = <Calendar />
+    }
+
 
     return(
         <div 
