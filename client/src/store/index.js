@@ -158,7 +158,7 @@ function GlobalStoreContextProvider(props) {
                     settings: store.settings,
                     mode: store.mode,
                     app_data: {
-                        weather: payload.weather_data,
+                        weather: payload.app_data.weather_data,
                         calendar: store.app_data.calendar,
                         music: store.app_data.music
                     }
@@ -167,13 +167,13 @@ function GlobalStoreContextProvider(props) {
 
             case GlobalStoreActionType.INIT_MUSIC: {
                 return setStore({
-                    active_apps: store.active_apps,
+                    active_apps: payload.active_apps,
                     menu_open: false,
                     current_app: null,
                     settings: store.settings,
                     mode: store.mode,
                     app_data: {
-                        weather: store.weather_data,
+                        weather: store.app_data.weather,
                         calendar: store.app_data.calendar,
                         music: payload.app_data.music_data
                     }
@@ -338,56 +338,52 @@ function GlobalStoreContextProvider(props) {
         return response.data;
     }
 
+    store.init_music = async function () {
+        let music_data = store.app_data.music;
+        if(store.app_data.music.tokens.access_token != null){
+            let new_data = await store.get_current_song();
+            music_data.current_song = new_data;
+        }
+        console.log(store.active_apps);
+        storeReducer({
+            type: GlobalStoreActionType.INIT_MUSIC,
+            payload: {
+                active_apps: store.active_apps,
+                app_data: {
+                    music_data: music_data
+                }
+            }
+        });
+    }
+
     store.get_current_song = async function(){
         const response = await api.getCurrentSong(store.app_data.music.tokens.access_token);
-        console.log("RESPONSE", response);
         if (response.status == 200){
-            console.log(response.data)
             return response.data;
         }
         else{
             console.log("API FAILED TO GET MUSIC!");
             console.log("Error " + response);
         }
-        return {};
+        return null;
     }
 
-    store.init_music = async function () {
-        let music_data = store.app_data.music;
-            if(store.app_data.music.tokens.access_token != null){
-                let new_data = await store.get_current_song();
-                music_data.current_song = new_data;
-            }
-            storeReducer({
-                type: GlobalStoreActionType.INIT_MUSIC,
-                payload: {
-                    app_data: {
-                        music_data: music_data
-                    }
-                }
-            })
-        // let app = express();
-
-        // var client_id = '41a7d2f2bc1e42ab86019a6c41895737';
-        // var redirect_uri = 'http://localhost:3000/callback';
-
-        // res.redirect("https://accounts.spotify.com/authorize?client_id=" + client_id + 
-        //         "&response_type=code&redirect_uri=" + redirect_uri);
-
-        //const response = await api.getCurrentSong();
-
-
-        // if(response.data.code == 200) {
-        //     console.log(response.data);
-        // }
-        // else{
-        //     console.log("API FAILED TO GET MUSIC!");
-        //     console.log("Error " + response.data.code + ": " + response.data.message);
-        // }
-        //return response;
-        //return {app_data: {music_data: {}}};
+    store.toggle_music = async function () {
+        if(store.app_data.music.current_song.is_playing){
+            api.pauseMusic(store.app_data.music.tokens.access_token);
+        }
+        else{
+            api.playMusic(store.app_data.music.tokens.access_token);
+        }
     }
 
+    store.next_song = async function () {
+        api.nextSong(store.app_data.music.tokens.access_token);
+    }
+
+    store.prev_song = async function () {
+        api.prevSong(store.app_data.music.tokens.access_token);
+    }
 
     // FUNCTION TO FINALIZE THE APP'S ADDITION TO THE PAGE (ON MOUSE OUT)
     store.add_app = async function(app){
@@ -404,7 +400,9 @@ function GlobalStoreContextProvider(props) {
                 type: GlobalStoreActionType.INIT_WEATHER,
                 payload: {
                     active_apps: updated_apps,
-                    weather_data: weather_data
+                    app_data:{
+                        weather_data: weather_data
+                    }
                 }
             })
         }

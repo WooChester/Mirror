@@ -52,7 +52,7 @@ const Calendar = () => {
     }
 
     return(
-            <div id="calendar-app" class="app-body">
+            <div id="calendar-app" className="app-body">
                 {body}
             </div>
     )

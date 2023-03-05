@@ -1,4 +1,3 @@
-//var SpotifyWebApi = require('spotify-web-api-node');
 const querystring = require('querystring');
 const axios = require('axios');
 
@@ -9,20 +8,10 @@ const axios = require('axios');
 //     response_type: "code"
 // });
 
-// spotifyApi.clientCredentialsGrant().then(
-//     function(data) {
-//         console.log('The access token is ' + data.body['access_token']);
-//         spotifyApi.setAccessToken(data.body['access_token']);
-//     },
-//     function(err) {
-//         console.log('Something went wrong!', err);
-//     }
-// );
-
 login = (req, res) => {
     var client_id = '41a7d2f2bc1e42ab86019a6c41895737';
     var redirect_uri = 'http://localhost:4000/api/music/callback';
-    var scope = 'user-read-playback-state';
+    var scope = 'user-read-playback-state user-modify-playback-state';
 
     res.redirect("https://accounts.spotify.com/authorize?" + 
         querystring.stringify({
@@ -65,33 +54,6 @@ callback = async (req, res) => {
         }
     })
 }
-  
-getPlayBackState = async () => {
-    spotifyApi.getMyCurrentPlaybackState()
-        .then(function(data) {
-            // Output items
-            if (data.body && data.body.is_playing) {
-            console.log("User is currently playing something!");
-            } else {
-            console.log("User is not playing anything, or doing so in private.");
-            }
-            return data.body.is_playing;
-        }, function(err) {
-            console.log('Something went wrong!', err);
-        });
-}
-
-getUserDevices = async () => {
-    spotifyApi.getMyDevices()
-        .then(function(data) {
-            let availableDevices = data.body.devices;
-            console.log(availableDevices);
-            return availableDevices;
-        }, function(err) {
-            console.log('Something went wrong!', err);
-        });
-    
-}
 
 getCurrentSong = async (req, res) => {
     // Get the User's Currently Playing Track 
@@ -103,7 +65,6 @@ getCurrentSong = async (req, res) => {
         }
     })
     .then(response => {
-        console.log(response.data);
         if(response.status == 204){
             return res.status(200).json({})
         }
@@ -113,44 +74,103 @@ getCurrentSong = async (req, res) => {
         console.log(err);
         res.send(err);
     })
-
-    // spotifyApi.getMyCurrentPlayingTrack()
-    //     .then(function(data) {
-    //         console.log(data);
-    //         console.log('Now playing: ' + data.body.item.name);
-    //         return res.status(200).json(data.body);
-    //     }, function(err) {
-    //         console.log('Something went wrong!', err);
-    //     });
 }
 
-pauseSong = async () => {
-    spotifyApi.pause()
-        .then(function() {
-            console.log('Playback paused');
-            return true;
-        }, function(err) {
-            //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
-            console.log('Something went wrong!', err);
-        });
+pauseMusic = async (req, res) => {
+    const access_token = req.params.access_token;
+
+    axios({
+        method: "put",
+        url: "https://api.spotify.com/v1/me/player/pause",
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    })
+    .then(response => {
+        if(response.status == 204){
+            return res.status(200).json({})
+        }
+        return res.status(200);
+    })
+    .catch(err => {
+        console.log(err);
+        res.send(err);
+    })
 }
 
-playSong = async () => {
-    spotifyApi.play()
-        .then(function() {
-            console.log('Playback started');
-        }, function(err) {
-            //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
-            console.log('Something went wrong!', err);
-        });
+playMusic = async (req, res) => {
+    const access_token = req.params.access_token;
+
+    axios({
+        method: "put",
+        url: "https://api.spotify.com/v1/me/player/play",
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    })
+    .then(response => {
+        if(response.status == 204){
+            return res.status(200).json({})
+        }
+        return res.status(200);
+    })
+    .catch(err => {
+        console.log(err);
+        res.send(err);
+    })
+}
+
+nextSong = async (req, res) => {
+    const access_token = req.params.access_token;
+
+    axios({
+        method: "post",
+        url: "https://api.spotify.com/v1/me/player/next",
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    })
+    .then(response => {
+        if(response.status == 204){
+            return res.status(200).json({})
+        }
+        return res.status(200);
+    })
+    .catch(err => {
+        console.log(err);
+        res.send(err);
+    })
+}
+
+prevSong = async (req, res) => {
+    const access_token = req.params.access_token;
+
+    axios({
+        method: "post",
+        url: "https://api.spotify.com/v1/me/player/previous",
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+        },
+    })
+    .then(response => {
+        if(response.status == 204){
+            return res.status(200).json({})
+        }
+        return res.status(200);
+    })
+    .catch(err => {
+        console.log(err);
+        res.send(err);
+    })
 }
 
 module.exports = {
-    getPlayBackState,
-    getUserDevices,
-    getCurrentSong,
-    pauseSong,
-    playSong,
     login,
-    callback
+    callback,
+    getCurrentSong,
+    playMusic,
+    pauseMusic,
+    nextSong,
+    prevSong
+    
 }

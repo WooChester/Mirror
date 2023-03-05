@@ -62,7 +62,7 @@ const Weather = () => {
     }
 
     return(
-            <div id="weather-app" class="app-body">
+            <div id="weather-app" className="app-body">
                 {body}
             </div>
     )

@@ -14,11 +14,19 @@ const api = axios.create({
 export const getWeather = (location) => api.get(`/weather/${location}`);
 
 export const getCurrentSong = (access_token) => api.get(`/music/current_song/${access_token}`);
+export const playMusic = (access_token) => api.put(`/music/play/${access_token}`);
+export const pauseMusic = (access_token) => api.put(`/music/pause/${access_token}`);
+export const nextSong = (access_token) => api.post(`/music/next/${access_token}`);
+export const prevSong = (access_token) => api.post(`/music/prev/${access_token}`);
 
 const apis = {
     getWeather,
 
-    getCurrentSong
+    getCurrentSong,
+    playMusic,
+    pauseMusic,
+    nextSong,
+    prevSong
 }
 
 export default apis

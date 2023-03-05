@@ -12,11 +12,11 @@ const ModeBar = () => {
 
     const { store } = useContext(GlobalStoreContext);
 
-    const toggleLight = () => {
+    const toggleLight = (e) => {
         store.toggle_light();
     }
 
-    const toggleLock = () => {
+    const toggleLock = (e) => {
         store.toggle_lock();
     }   
 
