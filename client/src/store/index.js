@@ -16,6 +16,7 @@ export const GlobalStoreActionType = {
 
     INIT_APP: "INIT_APP",
     INIT_WEATHER: "INIT_WEATHER",
+    INIT_MUSIC: "INIT_MUSIC",
 
     ADD_APP: "ADD_APP",
     REMOVE_APP: "REMOVE_APP",
@@ -32,6 +33,13 @@ export const GlobalStoreActionType = {
 // AVAILABLE TO THE REST OF THE APPLICATION
 function GlobalStoreContextProvider(props) {
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
+    const querystring = window.location.search;
+    const urlParams = new URLSearchParams(querystring);
+    const access_token = urlParams.get('access_token');
+    const refresh_token = urlParams.get('refresh_token');
+
+    let music_tokens = {'tokens': {'access_token': access_token, 'refresh_token': refresh_token}};
+
     const [store, setStore] = useState({
         active_apps: [],
         menu_open: false,
@@ -49,7 +57,7 @@ function GlobalStoreContextProvider(props) {
         app_data: {
             weather: {},
             calendar: {},
-            spotify: {}
+            music: music_tokens
         }
     });
 
@@ -152,9 +160,24 @@ function GlobalStoreContextProvider(props) {
                     app_data: {
                         weather: payload.weather_data,
                         calendar: store.app_data.calendar,
-                        spotify: store.app_data.spotify
+                        music: store.app_data.music
                     }
                 });
+            }
+
+            case GlobalStoreActionType.INIT_MUSIC: {
+                return setStore({
+                    active_apps: store.active_apps,
+                    menu_open: false,
+                    current_app: null,
+                    settings: store.settings,
+                    mode: store.mode,
+                    app_data: {
+                        weather: store.weather_data,
+                        calendar: store.app_data.calendar,
+                        music: payload.app_data.music_data
+                    }
+                })
             }
 
             case GlobalStoreActionType.ADD_APP: {
@@ -305,14 +328,64 @@ function GlobalStoreContextProvider(props) {
 
     store.init_weather = async function () {
         const response = await api.getWeather({"location": "Long Beach"});
-        if (response.data.cod == 200) {
+        if (response.data.code == 200) {
             console.log(response.data);
         }
         else {
             console.log("API FAILED TO GET THE WEATHER!");
-            console.log("Error " + response.data.cod + ": " + response.data.message);
+            console.log("Error " + response.data.code + ": " + response.data.message);
         }
         return response.data;
+    }
+
+    store.get_current_song = async function(){
+        const response = await api.getCurrentSong(store.app_data.music.tokens.access_token);
+        console.log("RESPONSE", response);
+        if (response.status == 200){
+            console.log(response.data)
+            return response.data;
+        }
+        else{
+            console.log("API FAILED TO GET MUSIC!");
+            console.log("Error " + response);
+        }
+        return {};
+    }
+
+    store.init_music = async function () {
+        let music_data = store.app_data.music;
+            if(store.app_data.music.tokens.access_token != null){
+                let new_data = await store.get_current_song();
+                music_data.current_song = new_data;
+            }
+            storeReducer({
+                type: GlobalStoreActionType.INIT_MUSIC,
+                payload: {
+                    app_data: {
+                        music_data: music_data
+                    }
+                }
+            })
+        // let app = express();
+
+        // var client_id = '41a7d2f2bc1e42ab86019a6c41895737';
+        // var redirect_uri = 'http://localhost:3000/callback';
+
+        // res.redirect("https://accounts.spotify.com/authorize?client_id=" + client_id + 
+        //         "&response_type=code&redirect_uri=" + redirect_uri);
+
+        //const response = await api.getCurrentSong();
+
+
+        // if(response.data.code == 200) {
+        //     console.log(response.data);
+        // }
+        // else{
+        //     console.log("API FAILED TO GET MUSIC!");
+        //     console.log("Error " + response.data.code + ": " + response.data.message);
+        // }
+        //return response;
+        //return {app_data: {music_data: {}}};
     }
 
 
@@ -332,6 +405,22 @@ function GlobalStoreContextProvider(props) {
                 payload: {
                     active_apps: updated_apps,
                     weather_data: weather_data
+                }
+            })
+        }
+        else if(app.id == 1){
+            let music_data = store.app_data.music;
+            if(store.app_data.music.tokens.access_token != null){
+                let new_data = await store.get_current_song();
+                music_data.current_song = new_data;
+            }
+            storeReducer({
+                type: GlobalStoreActionType.INIT_MUSIC,
+                payload: {
+                    active_apps: updated_apps,
+                    app_data: {
+                        music_data: music_data
+                    }
                 }
             })
         }

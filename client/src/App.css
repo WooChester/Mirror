@@ -33,7 +33,8 @@
     width: 100vw;
     height: 100vh;
     color: white;
-    position: relative
+    position: relative;
+    overflow: hidden;
 }
 
 /* Main Component End */
@@ -160,7 +161,7 @@
 /* App Box */
 
 .app-box{
-  border: 1px solid rgba(255,255,255, .1);
+  border: 1px solid rgba(255,255,255, .15);
   border-radius: 10px;
   position: absolute;
   min-height: 250px;
@@ -168,7 +169,7 @@
   width: 15%;
   height: 15vw;
   z-index: 3;
-  background: rgba(255,255,255, .03);
+  background: rgba(255,255,255, .05);
   overflow: hidden;
 }
 
@@ -280,7 +281,7 @@
 #hour {
   display: flex;
   justify-content: right;
-  align-items: center;
+  align-items: top;
   font-size: 90px;
 }
 
@@ -295,12 +296,24 @@
   color: rgba(255,255,255, .4);
 }
 
+#today {
+  font-size: 20px;
+}
+
 /* Calendar App */
 
 /* Music App */
 
 #player-buttons svg:nth-child(2) {
-  margin: 0px 20px;
+  margin: 0px 40px;
+}
+
+#song-title {
+  margin-bottom: -35px;
+}
+
+#song-artist {
+  color: rgba(255, 255,255, .4);
 }
 
 /* Music App */

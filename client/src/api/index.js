@@ -11,10 +11,14 @@ const api = axios.create({
 // WE NEED TO PUT THINGS INTO THE DATABASE OR IF WE HAVE SOME
 // CUSTOM FILTERS FOR QUERIES
 
-export const getWeather = (location) => api.get(`/weather/${location}`)
+export const getWeather = (location) => api.get(`/weather/${location}`);
+
+export const getCurrentSong = (access_token) => api.get(`/music/current_song/${access_token}`);
 
 const apis = {
-    getWeather
+    getWeather,
+
+    getCurrentSong
 }
 
 export default apis

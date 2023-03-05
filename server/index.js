@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
+const querystring = require('querystring')
 
 // CREATE OUR SERVER
 dotenv.config()
@@ -19,8 +20,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
-const top5listsRouter = require('./routes/app_router')
-app.use('/api', top5listsRouter)
+const mirrorRouter = require('./routes/app_router')
+app.use('/api', mirrorRouter)
 
 // PUT THE SERVER IN LISTENING MODE
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
