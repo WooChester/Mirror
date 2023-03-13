@@ -17,6 +17,7 @@ export const GlobalStoreActionType = {
     INIT_APP: "INIT_APP",
     INIT_WEATHER: "INIT_WEATHER",
     INIT_MUSIC: "INIT_MUSIC",
+    INIT_CALENDAR: "INIT_CALENDAR",
 
     ADD_APP: "ADD_APP",
     REMOVE_APP: "REMOVE_APP",
@@ -176,6 +177,21 @@ function GlobalStoreContextProvider(props) {
                         weather: store.app_data.weather,
                         calendar: store.app_data.calendar,
                         music: payload.app_data.music_data
+                    }
+                })
+            }
+
+            case GlobalStoreActionType.INIT_CALENDAR: {
+                return setStore({
+                    active_apps: payload.active_apps,
+                    menu_open: false,
+                    current_app: null,
+                    settings: store.settings,
+                    mode: store.mode,
+                    app_data: {
+                        weather: store.app_data.weather,
+                        calendar: payload.app_data.calendar,
+                        music: store.app_data.music
                     }
                 })
             }
@@ -344,7 +360,6 @@ function GlobalStoreContextProvider(props) {
             let new_data = await store.get_current_song();
             music_data.current_song = new_data;
         }
-        console.log(store.active_apps);
         storeReducer({
             type: GlobalStoreActionType.INIT_MUSIC,
             payload: {
@@ -354,6 +369,19 @@ function GlobalStoreContextProvider(props) {
                 }
             }
         });
+    }
+
+    store.init_calendar = async function (){
+        const response = await api.getEvents();
+        if(response.status == 200){
+            console.log(response.data);
+            return response.data;
+        }
+        else{
+            console.log("API FAILED TO GET THE CALENDAR!");
+            console.log("Error " + response);
+        }
+        return null;
     }
 
     store.get_current_song = async function(){
@@ -383,6 +411,11 @@ function GlobalStoreContextProvider(props) {
 
     store.prev_song = async function () {
         api.prevSong(store.app_data.music.tokens.access_token);
+    }
+
+    // FUNCTIONS TO GET CALENDAR EVENTS
+    store.get_events = async function () {
+        api.getEvents();
     }
 
     // FUNCTION TO FINALIZE THE APP'S ADDITION TO THE PAGE (ON MOUSE OUT)
@@ -418,6 +451,19 @@ function GlobalStoreContextProvider(props) {
                     active_apps: updated_apps,
                     app_data: {
                         music_data: music_data
+                    }
+                }
+            })
+        }
+        else if(app.id == 4){
+            let calendar_data = await store.init_calendar();
+            console.log(calendar_data);
+            storeReducer({
+                type: GlobalStoreActionType.INIT_CALENDAR,
+                payload: {
+                    active_apps: updated_apps,
+                    app_data: {
+                        calendar: calendar_data
                     }
                 }
             })

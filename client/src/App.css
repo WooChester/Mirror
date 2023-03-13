@@ -318,6 +318,28 @@
 
 /* Music App */
 
+/* Calendar App */
+
+#calendar-app li {
+  font-size: 20px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  list-style: none;
+}
+
+#events-list {
+  overflow: scroll;
+  max-height: 14vw;
+}
+
+#calendar-basic {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Calendar App */
+
 /* App Settings */
 
 #app-settings {

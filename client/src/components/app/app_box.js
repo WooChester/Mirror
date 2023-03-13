@@ -131,7 +131,7 @@ const AppBox = ({app}) => {
         box_text = <Music />
     }
     else if(app.id == 4){
-        box_text = <Calendar />
+        box_text = <Calendar app={app} />
     }
 
 

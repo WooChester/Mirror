@@ -1,8 +1,8 @@
 const express = require('express');
 const WeatherController = require('../controllers/weather_controller');
 const MusicController = require('../controllers/music_controller');
+const CalendarController = require('../controllers/calendar_controller');
 const router = express.Router();
-
 
 router.get('/weather/:location', WeatherController.getWeather);
 
@@ -13,6 +13,8 @@ router.put('/music/play/:access_token', MusicController.playMusic);
 router.put('/music/pause/:access_token', MusicController.pauseMusic);
 router.post('/music/next/:access_token', MusicController.nextSong);
 router.post('/music/prev/:access_token', MusicController.prevSong);
+
+router.get('/calendar/events', CalendarController.getEvents);
 
 router.get(`/callback`, (req, res) => { console.log(req); console.log(res); })
 

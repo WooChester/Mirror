@@ -19,6 +19,8 @@ export const pauseMusic = (access_token) => api.put(`/music/pause/${access_token
 export const nextSong = (access_token) => api.post(`/music/next/${access_token}`);
 export const prevSong = (access_token) => api.post(`/music/prev/${access_token}`);
 
+export const getEvents = () => api.get('/calendar/events');
+
 const apis = {
     getWeather,
 
@@ -26,7 +28,9 @@ const apis = {
     playMusic,
     pauseMusic,
     nextSong,
-    prevSong
+    prevSong,
+
+    getEvents
 }
 
 export default apis
