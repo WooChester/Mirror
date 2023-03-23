@@ -59,13 +59,30 @@ getCurrentSong = async (req, res) => {
     // Get the User's Currently Playing Track 
     const access_token = req.params.access_token;
     
-    axios.get("https://api.spotify.com/v1/me/player/currently-playing", {
+    axios({
+        method: "get",
+        url: "https://api.spotify.com/v1/me/player/devices",
+        headers: {
+            Authorization: `Bearer ${access_token}` 
+        }
+    })
+    .then(response => {
+        console.log(response);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+    axios({
+        method: "get",
+        url: "https://api.spotify.com/v1/me/player/currently-playing",
         headers: {
             Authorization: `Bearer ${access_token}` 
         }
     })
     .then(response => {
         if(response.status == 204){
+            console.log(response);
             return res.status(200).json({})
         }
         return res.status(200).json(response.data);
@@ -74,6 +91,7 @@ getCurrentSong = async (req, res) => {
         console.log(err);
         res.send(err);
     })
+
 }
 
 pauseMusic = async (req, res) => {
