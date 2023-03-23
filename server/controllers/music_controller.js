@@ -58,20 +58,6 @@ callback = async (req, res) => {
 getCurrentSong = async (req, res) => {
     // Get the User's Currently Playing Track 
     const access_token = req.params.access_token;
-    
-    axios({
-        method: "get",
-        url: "https://api.spotify.com/v1/me/player/devices",
-        headers: {
-            Authorization: `Bearer ${access_token}` 
-        }
-    })
-    .then(response => {
-        console.log(response);
-    })
-    .catch(err => {
-        console.log(err);
-    })
 
     axios({
         method: "get",
