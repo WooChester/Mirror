@@ -8,6 +8,8 @@ router.get('/weather/:location', WeatherController.getWeather);
 
 router.get('/music/login', MusicController.login);
 router.get('/music/callback', MusicController.callback);
+router.get(`/music/refresh`, MusicController.refresh);
+
 router.get('/music/current_song/:access_token', MusicController.getCurrentSong);
 router.put('/music/play/:access_token', MusicController.playMusic);
 router.put('/music/pause/:access_token', MusicController.pauseMusic);
@@ -16,6 +18,7 @@ router.post('/music/prev/:access_token', MusicController.prevSong);
 
 router.get('/calendar/events', CalendarController.getEvents);
 
-router.get(`/callback`, (req, res) => { console.log(req); console.log(res); })
+//router.get(`/callback`, (req, res) => { console.log(req); console.log(res); })
+
 
 module.exports = router;

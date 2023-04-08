@@ -55,6 +55,29 @@ callback = async (req, res) => {
     })
 }
 
+refresh = async (req, res) => {
+    const {refresh_token} = req.query;
+
+    axios({
+        method: "post",
+        url: "https://accounts.spotify.com/api/token",
+        data: querystring.stringify({
+            grant_type: "refresh_token",
+            refresh_token: refresh_token
+        }),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${new Buffer.from(`${client_id}:${client_secret}`).toString('base64')}`,
+        },
+    })
+    .then(response => {
+        if (response.status === 200){
+            const {access_token} = response.data;
+            return res.status(200).json({access_token: access_token});
+        }
+    });
+}
+
 getCurrentSong = async (req, res) => {
     // Get the User's Currently Playing Track 
     const access_token = req.params.access_token;
@@ -68,14 +91,18 @@ getCurrentSong = async (req, res) => {
     })
     .then(response => {
         if(response.status == 204){
-            console.log(response);
-            return res.status(200).json({})
+            console.log("No Music Playing");
+            return res.status(200).json(null)
         }
         return res.status(200).json(response.data);
     })
     .catch(err => {
         console.log(err);
-        res.send(err);
+        //res.send(err);
+        if(response.status == 401 && response.statusText == "Unauthorized"){
+            return res.status(200).json({"message": "refreshToken"});
+        }
+        return res.status(200).json(null);
     })
 
 }
@@ -171,6 +198,7 @@ prevSong = async (req, res) => {
 module.exports = {
     login,
     callback,
+    refresh,
     getCurrentSong,
     playMusic,
     pauseMusic,

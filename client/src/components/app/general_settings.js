@@ -18,7 +18,7 @@ const GeneralSettings = () => {
 
     const saveSettings = function(){
         let updated_app = store.current_app;
-        updated_app.settings = {shape: shape};
+        updated_app.settings.shape = shape;
         store.save_app( updated_app );
     }
 

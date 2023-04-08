@@ -109,6 +109,12 @@ const AppBox = ({app}) => {
         }
     }
 
+    const handleDoubleClick = () => {
+        let updated_app = app;
+        updated_app.settings.shape = app.settings.shape == "long" ? "square" : "long";
+        store.save_app(updated_app);
+    }
+
     const openSettings = () => {
         store.edit_app(app);
     }
@@ -125,7 +131,7 @@ const AppBox = ({app}) => {
         box_text = <ModeBar />
     }
     if(app.id == 0){
-        box_text = <Weather />
+        box_text = <Weather app={app}/>
     }
     else if(app.id == 1){
         box_text = <Music />
@@ -139,12 +145,13 @@ const AppBox = ({app}) => {
         <div 
             className={box_class} 
             style={style} 
+
+            onDoubleClick={handleDoubleClick}
+
             onMouseDown={handleDown} 
             onMouseMove={handleMove} 
             onMouseUp={handleUp}
-            //onDragStart={handleDown}
-            //onDrag={handleMove}
-            //onDragEnd={handleUp}
+
             onTouchStart={handleDown}
             onTouchMove={handleMove}
             onTouchEnd={handleUp}

@@ -62,6 +62,10 @@ function GlobalStoreContextProvider(props) {
         }
     });
 
+    if(access_token != null){
+        setTimeout(refresh_token, 1000 * 60 * 60);
+    }
+
     // SINCE WE'VE WRAPPED THE STORE IN THE AUTH CONTEXT WE CAN ACCESS THE USER HERE
 
     // HERE'S THE DATA STORE'S REDUCER, IT MUST
@@ -384,9 +388,33 @@ function GlobalStoreContextProvider(props) {
         return null;
     }
 
+    store.refresh_token = async function() {
+        console.log("Refreshing Music Token...");
+        const response = await api.refreshToken(store.app_data.music.tokens.refresh_token);
+        if(response.status == 200){
+            // Set up new access_token
+
+            let new_data = store.app_data.music_data;
+            new_data.access_token = response.data;
+            
+            storeReducer({
+                type: GlobalStoreActionType.INIT_MUSIC,
+                payload: {
+                    active_apps: store.active_apps,
+                    app_data: {
+                        music_data: new_data
+                    }
+                }
+            });
+
+            setTimeout(store.refreshToken, 1000 * 60 * 45);
+        }
+    }
+
     store.get_current_song = async function(){
         const response = await api.getCurrentSong(store.app_data.music.tokens.access_token);
         if (response.status == 200){
+            console.log(response);
             return response.data;
         }
         else{

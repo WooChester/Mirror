@@ -13,10 +13,6 @@ const Calendar = ({app}) => {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    const handleClick = () => {
-        store.get_events();
-    }
-
     useEffect(() => {
         const interval = setInterval(() => setDate(new Date()), 1000);
 
@@ -74,7 +70,7 @@ const Calendar = ({app}) => {
             body = <Container>
                         <Row>
                             <Col md="4">
-                                <div id="calendar-basic">
+                                <div id="calendar-basic" className="app-basic">
                                     {basic}
                                 </div>
                             </Col>

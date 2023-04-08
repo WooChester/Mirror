@@ -181,6 +181,7 @@
   height: 80px;
   min-width: 80px;
   min-height: 80px;
+  z-index: 6;
 }
 
 .app-settings{
@@ -211,6 +212,12 @@
   line-height: 300%;
   font-size: 24px;
   font-weight: 600;
+}
+
+.app-basic {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 /* App Box End */
@@ -265,6 +272,16 @@
   letter-spacing: 3px;
 }
 
+.weather-extended-title {
+  text-align: left;
+  padding-left: 50px !important;
+}
+
+.weather-extended-data {
+  text-align: right;
+  padding-right: 50px !important;
+}
+
 /* Weather App */
 
 
@@ -310,10 +327,15 @@
 
 #song-title {
   margin-bottom: -35px;
+  width: 120%;
 }
 
 #song-artist {
   color: rgba(255, 255,255, .4);
+}
+
+.marquee {
+  padding: 0px 10px;
 }
 
 /* Music App */
@@ -330,12 +352,6 @@
 #events-list {
   overflow: scroll;
   max-height: 14vw;
-}
-
-#calendar-basic {
-  display: flex;
-  align-items: center;
-  height: 100%;
 }
 
 /* Calendar App */
