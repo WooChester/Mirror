@@ -173,7 +173,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.INIT_MUSIC: {
                 return setStore({
                     active_apps: payload.active_apps,
-                    menu_open: false,
+                    menu_open: store.menu_open,
                     current_app: null,
                     settings: store.settings,
                     mode: store.mode,
