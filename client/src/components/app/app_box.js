@@ -47,11 +47,10 @@ const AppBox = ({app}) => {
     }
 
     const handleMove = (e) => {
-
+        console.log(e);
         let e_x, e_y;
         if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
             var touch = e.nativeEvent.touches[0] || e.nativeEvent.changedTouches[0];
-            console.log(touch);
             e_x = touch.pageX;
             e_y = touch.pageY;
         } else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
