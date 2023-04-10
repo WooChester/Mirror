@@ -1,4 +1,4 @@
-import {React, useContext} from "react";
+import {React, useContext, useState} from "react";
 import Footer from './footer.js';
 import Menu from './menu/menu.js';
 
@@ -10,6 +10,14 @@ const MainComponent = () => {
 
     const { store } = useContext(GlobalStoreContext);
     console.log(store);
+
+    const handleUp = () => {
+        if(store.new_app){
+            console.log("UP!");
+            store.add_app(store.new_app);
+        }
+    }
+
     const active_apps = store.active_apps.map((app) => (
         <AppBox
             key={app.id}
@@ -21,7 +29,7 @@ const MainComponent = () => {
     let light = store.mode.light_mode ? <div id="light"></div> : "";
 
     return (
-        <div id="container">
+        <div id="container" onTouchEnd={handleUp} onMouseUp={handleUp}>
             <Menu />
             {active_apps}
             {settings}
