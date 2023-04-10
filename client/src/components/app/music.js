@@ -44,7 +44,7 @@ const Music = () => {
         else{
             console.log(store.app_data.music.current_song);
             
-            if(store.app_data.music.current_song === null){
+            if(store.app_data.music.current_song && store.app_data.music.current_song === null){
                 body = <div><p>There is currently nothing playing</p></div>
             }
             else{
