@@ -347,8 +347,9 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.init_weather = async function () {
+        console.log("WEATHER INIT");
         const response = await api.getWeather({"location": "Long Beach"});
-        if (response.data.code == 200) {
+        if (response.data.cod == 200) {
             console.log(response.data);
         }
         else {
